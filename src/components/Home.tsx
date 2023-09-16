@@ -5,8 +5,9 @@ import { Data } from '../interfaces/data'
 import Button from '@mui/material/Button';
 import baseUrl from './baseUrl';
 import Pagination from '@mui/material/Pagination';
+import { ReactJSXElement } from '@emotion/react/dist/declarations/types/jsx-namespace';
 
-const Home: React.FC = () => {
+const Home: React.FC = ():ReactJSXElement => {
 
     const [movies, setMovies] = useState<Data[]>([])
     const [page, setPage] = useState<number>(1)
