@@ -1,4 +1,4 @@
-export const LocalMode = () => {
+export const LocalMode = (): boolean => {
     const localMode: string | null = localStorage.getItem('mode')
     if (localMode) {
         return JSON.parse(localMode)
