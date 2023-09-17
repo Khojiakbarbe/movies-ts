@@ -16,7 +16,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useEffect, useState } from 'react'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import { LocalMode } from './LocalMode';
+import { LocalMode } from './LocalStorage';
+import { useNavigate } from 'react-router-dom';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -86,6 +87,8 @@ export default function PrimarySearchAppBar() {
     };
 
     const [mode, setMode] = useState<boolean>(LocalMode())
+    const navigate = useNavigate();
+
 
     if (mode) {
         document.documentElement.classList.add('dark')
@@ -101,6 +104,11 @@ export default function PrimarySearchAppBar() {
         }
         localStorage.setItem('mode', JSON.stringify(mode))
     }, [mode])
+
+    function goFavorite(){
+        handleMenuClose()
+        navigate('/favorites')
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -119,7 +127,7 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={() => goFavorite()} >Favorites</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
@@ -175,7 +183,8 @@ export default function PrimarySearchAppBar() {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                        sx={{ display: { xs: 'none', sm: 'block' }, cursor:'pointer' }}
+                        onClick={() => navigate('/')}
                     >
                         MOVIES
                     </Typography>
