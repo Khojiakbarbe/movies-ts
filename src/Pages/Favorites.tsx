@@ -1,4 +1,3 @@
-
 import baseUrl from "../components/baseUrl";
 import { useAppDispatch, useAppSelector } from "../store/store"
 import PrimarySearchAppBar from '../components/Navbar'
@@ -9,7 +8,6 @@ import { deleteMovie } from "../store/Slice";
 
 const Favorites: React.FC = () => {
 
-
     const dispatch = useAppDispatch();
 
     const movies = useAppSelector((state) => state.movies.favorites)
@@ -18,7 +16,7 @@ const Favorites: React.FC = () => {
         <>
             <PrimarySearchAppBar />
             <div className="container">
-                <h1>Favorites</h1>
+                <span className="dark:text-white  favoritesText mx-5 md:text-2xl">Favorites</span>
                 <div className='p-10 grid grid-cols-2 md:grid-cols-4  gap-5'>
                     {
                         movies?.map((movie: Data, i) => {
@@ -30,11 +28,11 @@ const Favorites: React.FC = () => {
                                         <span className='absolute translate-y-[-200px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content 18+</span>
 
                                         <p>Org lang : {movie.original_language}</p>
-                                        {/* <p>{movie.overview}</p> */}
                                         <p>Pp: {movie.popularity}</p>
                                         <p>Release Date: {movie.release_date}</p>
                                         <p>vote av: {movie.vote_average}</p>
                                         <p>vote count: {movie.vote_count}</p>
+                                        {/* <p>{movie.overview}</p> */}
                                     </div>
                                 </div>
                                 <p>{movie.title}</p>

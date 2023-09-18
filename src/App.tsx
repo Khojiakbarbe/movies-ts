@@ -1,9 +1,10 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.scss'
-import Home from './components/Home'
+import Home from './Pages/Home'
 import Navbar from './components/Navbar'
 import Favorites from './Pages/Favorites'
+import Dashboard from './Pages/Dashboard'
 
 
 const App: React.FC = () => {
@@ -16,6 +17,10 @@ const App: React.FC = () => {
     {
       path:'/favorites',
       element:<Favorites />
+    },
+    {
+      path:'/dashboard',
+      element:<Dashboard />
     }
   ])
 

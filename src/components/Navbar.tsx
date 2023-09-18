@@ -18,7 +18,8 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { LocalMode } from './LocalStorage';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../store/store';
+import { useAppDispatch, useAppSelector } from '../store/store';
+import { incProfileBadge } from '../store/Slice';
 
 
 
@@ -65,6 +66,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 export default function PrimarySearchAppBar() {
+
+    const dispatch = useAppDispatch();
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
@@ -72,9 +76,9 @@ export default function PrimarySearchAppBar() {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+    const profileBadge = useAppSelector((state) => state.movies.profileBadge)
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
-        setAccBadge(0)
     };
 
     const handleMobileMenuClose = () => {
@@ -93,12 +97,6 @@ export default function PrimarySearchAppBar() {
     const [mode, setMode] = useState<boolean>(LocalMode())
     const navigate = useNavigate();
 
-    const favoritesCount = useAppSelector((state) => state.movies.favorites.length)
-    const [accBadge, setAccBadge] = useState<number>(favoritesCount / favoritesCount)
-
-    useEffect(() => {
-        setAccBadge(1)
-    }, [favoritesCount])
 
     if (mode) {
         document.documentElement.classList.add('dark')
@@ -117,6 +115,7 @@ export default function PrimarySearchAppBar() {
 
     function goFavorite() {
         handleMenuClose()
+        dispatch(incProfileBadge(0))
         navigate('/favorites')
     }
 
@@ -138,9 +137,12 @@ export default function PrimarySearchAppBar() {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={() => goFavorite()} >
-                <Badge badgeContent={favoritesCount} color="error">
+                <Badge badgeContent={profileBadge} color="error">
                     Favorites
                 </Badge>
+            </MenuItem>
+            <MenuItem onClick={() => navigate('/dashboard')} >
+                Dashboard
             </MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
@@ -171,7 +173,7 @@ export default function PrimarySearchAppBar() {
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={profileBadge} color="error">
                         <AccountCircle />
                     </Badge>
                 </IconButton>
@@ -190,6 +192,7 @@ export default function PrimarySearchAppBar() {
                         color="inherit"
                         aria-label="open drawer"
                         sx={{ mr: 2 }}
+                        onClick={() => navigate('/')}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -230,9 +233,9 @@ export default function PrimarySearchAppBar() {
                             color="inherit"
                         >
                             {
-                                accBadge != 0 ?
+                                profileBadge != 0 ?
 
-                                    <Badge badgeContent={accBadge} color="error">
+                                    <Badge badgeContent={profileBadge} color="error">
                                         <AccountCircle />
                                     </Badge>
                                     :

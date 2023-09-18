@@ -3,22 +3,22 @@ import { options } from '../option'
 import { useState, useEffect } from 'react'
 import { Data } from '../interfaces/data'
 import Button from '@mui/material/Button';
-import baseUrl from './baseUrl';
+import baseUrl from '../components/baseUrl';
 import Pagination from '@mui/material/Pagination';
 import { ReactJSXElement } from '@emotion/react/dist/declarations/types/jsx-namespace';
-import Skeletons from './Skeletons';
+import Skeletons from '../components/Skeletons';
 import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import PrimarySearchAppBar from './Navbar';
+import PrimarySearchAppBar from '../components/Navbar';
 import { useAppDispatch } from '../store/store';
-import { addMovie } from '../store/Slice';
+import { addMovie, incProfileBadge } from '../store/Slice';
 import { useNavigate } from 'react-router-dom';
-import { getLocalFavorites } from './LocalStorage';
+import { getLocalFavorites } from '../components/LocalStorage';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 
 const Home: React.FC = (): ReactJSXElement => {
-
-    const navigate = useNavigate()
 
     const dispatch = useAppDispatch();
 
@@ -47,8 +47,6 @@ const Home: React.FC = (): ReactJSXElement => {
     }
 
 
-
-
     function checkFavorite(movie: Data): boolean {
         const favorites: Data[] | [] = getLocalFavorites();
         const check: boolean = favorites.every(m => m.id !== movie.id)
@@ -59,7 +57,12 @@ const Home: React.FC = (): ReactJSXElement => {
         }
     }
 
-    
+    let addedMovieToFavorites = 0;
+    function addToFavorite(movie: Data): void {
+        addedMovieToFavorites++
+        dispatch(addMovie({ id: movie.id, movie: movie }))
+        dispatch(incProfileBadge(addedMovieToFavorites))
+    }
 
 
     return (
@@ -82,8 +85,8 @@ const Home: React.FC = (): ReactJSXElement => {
                                         {/* <p>{movie.overview}</p> */}
                                         <p>Pp: {movie.popularity}</p>
                                         <p>Release Date: {movie.release_date}</p>
-                                        <p>vote av: {movie.vote_average}</p>
-                                        <p>vote count: {movie.vote_count}</p>
+                                        <p><GradeOutlinedIcon className='text-yellow-400' />: {movie.vote_average}</p>
+                                        <p><FavoriteOutlinedIcon className='text-red-600' />: {movie.vote_count}</p>
                                     </div>
                                 </div>
                                 <p>{movie.title}</p>
@@ -91,7 +94,7 @@ const Home: React.FC = (): ReactJSXElement => {
                                 <Tooltip title='Add to favorites' placement='bottom-start'>
                                     {
                                         checkFavorite(movie) ?
-                                            <IconButton onClick={() => dispatch(addMovie({ id: movie.id, movie: movie }))} className='inline dark:text-white w-10'>
+                                            <IconButton onClick={() => addToFavorite(movie)} className='inline dark:text-white w-10'>
                                                 <AddCardOutlinedIcon />
                                             </IconButton>
                                             :
@@ -104,7 +107,6 @@ const Home: React.FC = (): ReactJSXElement => {
                         })
                     }
                 </div>
-                <button onClick={() => navigate('/favorites')}>gooo</button>
                 <div className='relative'>
                     <Pagination className=' md:absolute left-[35%] rounded-lg bg-white text-center' count={pageCount} page={page} showFirstButton showLastButton onChange={changePage} />
                 </div>
