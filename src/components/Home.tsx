@@ -14,6 +14,7 @@ import PrimarySearchAppBar from './Navbar';
 import { useAppDispatch } from '../store/store';
 import { addMovie } from '../store/Slice';
 import { useNavigate } from 'react-router-dom';
+import { getLocalFavorites } from './LocalStorage';
 
 const Home: React.FC = (): ReactJSXElement => {
 
@@ -46,27 +47,58 @@ const Home: React.FC = (): ReactJSXElement => {
     }
 
 
-    function dispatchF(movie: Data) {
-        dispatch(addMovie(movie))
+
+
+    function checkFavorite(movie: Data): boolean {
+        const favorites: Data[] | [] = getLocalFavorites();
+        const check: boolean = favorites.every(m => m.id !== movie.id)
+        if (check) {
+            return true
+        } else {
+            return false
+        }
     }
+
+    
 
 
     return (
         <>
             <PrimarySearchAppBar />
-            <div className='container mx-auto'>
+            <div className='container mx-auto mb-11'>
                 <Button variant="outlined" color='error'>Contained</Button>
                 {loading && <Skeletons />}
                 <div className='p-10 grid grid-cols-2 md:grid-cols-4  gap-5'>
                     {
                         !loading && movies.map((movie, i) => {
-                            return <div key={i} className='grid grid-rows-[auto_1fr] border-b-2 pb-2 gap-4 dark:text-white my-4 font-serif text-xs md:text-2xl'>
-                                <img src={baseUrl(movie.poster_path)} className='w-full rounded-lg md:h-[600px] hover:shadow-[0_0_40px_black] dark:hover:shadow-[0_0_40px_blue] hover:translate-y-[-10px] hover:trans transition duration-300' alt="" />
+                            return <div key={i} className='grid grid-rows-[auto_1fr] border-b-2 pb-2 gap-4 dark:text-white my-4 font-serif text-xs md:text-2xl '>
+                                <div className='content hover:shadow-[0_0_40px_black] dark:hover:shadow-[0_0_40px_blue] hover:translate-y-[-10px] transition duration-300'>
+                                    <div className="content-overlay"></div>
+                                    <img src={baseUrl(movie.poster_path)} className='w-full rounded-lg md:h-[600px] ' alt="" />
+                                    <div className='content-details fadeIn-right text-white'>
+                                        <span className='absolute translate-y-[-200px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content is 18+</span>
+
+                                        <p>Org lang: {movie.original_language}</p>
+                                        {/* <p>{movie.overview}</p> */}
+                                        <p>Pp: {movie.popularity}</p>
+                                        <p>Release Date: {movie.release_date}</p>
+                                        <p>vote av: {movie.vote_average}</p>
+                                        <p>vote count: {movie.vote_count}</p>
+                                    </div>
+                                </div>
                                 <p>{movie.title}</p>
+
                                 <Tooltip title='Add to favorites' placement='bottom-start'>
-                                    <IconButton onClick={() => dispatchF(movie)} className='inline dark:text-white w-10'>
-                                        <AddCardOutlinedIcon />
-                                    </IconButton>
+                                    {
+                                        checkFavorite(movie) ?
+                                            <IconButton onClick={() => dispatch(addMovie({ id: movie.id, movie: movie }))} className='inline dark:text-white w-10'>
+                                                <AddCardOutlinedIcon />
+                                            </IconButton>
+                                            :
+                                            <IconButton disabled className='inline disabled:text-green-900  w-10'>
+                                                <AddCardOutlinedIcon />
+                                            </IconButton>
+                                    }
                                 </Tooltip>
                             </div>
                         })

@@ -18,6 +18,9 @@ import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { LocalMode } from './LocalStorage';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../store/store';
+
+
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -71,6 +74,7 @@ export default function PrimarySearchAppBar() {
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
+        setAccBadge(0)
     };
 
     const handleMobileMenuClose = () => {
@@ -89,6 +93,12 @@ export default function PrimarySearchAppBar() {
     const [mode, setMode] = useState<boolean>(LocalMode())
     const navigate = useNavigate();
 
+    const favoritesCount = useAppSelector((state) => state.movies.favorites.length)
+    const [accBadge, setAccBadge] = useState<number>(favoritesCount / favoritesCount)
+
+    useEffect(() => {
+        setAccBadge(1)
+    }, [favoritesCount])
 
     if (mode) {
         document.documentElement.classList.add('dark')
@@ -105,7 +115,7 @@ export default function PrimarySearchAppBar() {
         localStorage.setItem('mode', JSON.stringify(mode))
     }, [mode])
 
-    function goFavorite(){
+    function goFavorite() {
         handleMenuClose()
         navigate('/favorites')
     }
@@ -127,7 +137,11 @@ export default function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={() => goFavorite()} >Favorites</MenuItem>
+            <MenuItem onClick={() => goFavorite()} >
+                <Badge badgeContent={favoritesCount} color="error">
+                    Favorites
+                </Badge>
+            </MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
     );
@@ -183,7 +197,7 @@ export default function PrimarySearchAppBar() {
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' }, cursor:'pointer' }}
+                        sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
                         onClick={() => navigate('/')}
                     >
                         MOVIES
@@ -215,9 +229,15 @@ export default function PrimarySearchAppBar() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <Badge badgeContent={17} color="error">
-                                <AccountCircle />
-                            </Badge>
+                            {
+                                accBadge != 0 ?
+
+                                    <Badge badgeContent={accBadge} color="error">
+                                        <AccountCircle />
+                                    </Badge>
+                                    :
+                                    <AccountCircle />
+                            }
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

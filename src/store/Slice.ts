@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addFavorites, getLocalFavorites } from "../components/LocalStorage";
 import { Data } from "../interfaces/data";
 
 
@@ -7,18 +8,26 @@ interface MoviesState {
 }
 
 const initialState: MoviesState = {
-    favorites: [],
+    favorites: getLocalFavorites(),
 };
 
 const MovieSlice = createSlice({
     name: "movies",
     initialState,
     reducers: {
-        addMovie: (state, action: PayloadAction<Data>) => {
-            state.favorites = [...state.favorites, action.payload]
+        addMovie: (state, action: PayloadAction<{ id: number, movie: Data }>) => {
+            const filter = state.favorites.every(m => m.id !== action.payload.id)
+            if (filter) {
+                state.favorites = [...state.favorites, action.payload.movie]
+                addFavorites(state.favorites)
+            }
         },
+        deleteMovie: (state, action: PayloadAction<number>) => {
+            state.favorites = state.favorites.filter(m => m.id !== action.payload)
+            addFavorites(state.favorites)
+        }
     },
 });
 
 export const MoviesReducer = MovieSlice.reducer;
-export const { addMovie } = MovieSlice.actions
+export const { addMovie, deleteMovie  } = MovieSlice.actions

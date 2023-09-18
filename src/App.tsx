@@ -22,8 +22,6 @@ const App: React.FC = () => {
   return (
     <div>
       <RouterProvider router={routes} />
-      {/* <Navbar />
-      <Home /> */}
     </div>
   )
 }
