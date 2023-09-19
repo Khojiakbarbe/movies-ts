@@ -11,7 +11,7 @@ import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import PrimarySearchAppBar from '../components/Navbar';
-import { useAppDispatch } from '../store/store';
+import { useAppDispatch, useAppSelector } from '../store/store';
 import { addMovie, incProfileBadge } from '../store/Slice';
 import { useNavigate } from 'react-router-dom';
 import { getLocalFavorites } from '../components/LocalStorage';
@@ -19,6 +19,8 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
 
 const Home: React.FC = (): ReactJSXElement => {
+
+    const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
@@ -47,22 +49,22 @@ const Home: React.FC = (): ReactJSXElement => {
     }
 
 
-    function checkFavorite(movie: Data): boolean {
+    let addedMovieToFavorites = 0;
+    function checkFavorite(add: boolean, movie: Data): boolean {
         const favorites: Data[] | [] = getLocalFavorites();
         const check: boolean = favorites.every(m => m.id !== movie.id)
         if (check) {
+            if (add) {
+                addedMovieToFavorites++
+                dispatch(addMovie({ id: movie.id, movie: movie }))
+                dispatch(incProfileBadge(addedMovieToFavorites))
+            }
             return true
         } else {
             return false
         }
     }
 
-    let addedMovieToFavorites = 0;
-    function addToFavorite(movie: Data): void {
-        addedMovieToFavorites++
-        dispatch(addMovie({ id: movie.id, movie: movie }))
-        dispatch(incProfileBadge(addedMovieToFavorites))
-    }
 
 
     return (
@@ -78,31 +80,33 @@ const Home: React.FC = (): ReactJSXElement => {
                                 <div className='content hover:shadow-[0_0_40px_black] dark:hover:shadow-[0_0_40px_blue] hover:translate-y-[-10px] transition duration-300'>
                                     <div className="content-overlay"></div>
                                     <img src={baseUrl(movie.poster_path)} className='w-full rounded-lg md:h-[600px] ' alt="" />
-                                    <div className='content-details fadeIn-right text-white'>
-                                        <span className='absolute translate-y-[-200px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content is 18+</span>
-
+                                    <div className='content-details fadeIn-right text-white' >
+                                        <span className='absolute translate-y-[-100px] md:translate-y-[-150px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content is 18+</span>
                                         <p>Org lang: {movie.original_language}</p>
-                                        {/* <p>{movie.overview}</p> */}
                                         <p>Pp: {movie.popularity}</p>
+                                        {movie.id}
                                         <p>Release Date: {movie.release_date}</p>
                                         <p><GradeOutlinedIcon className='text-yellow-400' />: {movie.vote_average}</p>
                                         <p><FavoriteOutlinedIcon className='text-red-600' />: {movie.vote_count}</p>
+                                        <div className='text-center pt-5'>
+                                            <Button onClick={() => navigate('/details', { state: { id: 1, movie: movie } })} variant="outlined" color='error'>MORE</Button>
+                                        </div>
                                     </div>
                                 </div>
                                 <p>{movie.title}</p>
 
-                                <Tooltip title='Add to favorites' placement='bottom-start'>
-                                    {
-                                        checkFavorite(movie) ?
-                                            <IconButton onClick={() => addToFavorite(movie)} className='inline dark:text-white w-10'>
-                                                <AddCardOutlinedIcon />
+                                {
+                                    checkFavorite(false, movie) ?
+                                        <Tooltip title='Add to favorites' placement='bottom-start'>
+                                            <IconButton onClick={() => checkFavorite(true, movie)} className='inline dark:text-red-600 w-10'>
+                                                <FavoriteOutlinedIcon />
                                             </IconButton>
-                                            :
-                                            <IconButton disabled className='inline disabled:text-green-900  w-10'>
-                                                <AddCardOutlinedIcon />
-                                            </IconButton>
-                                    }
-                                </Tooltip>
+                                        </Tooltip>
+                                        :
+                                        <IconButton disabled className='inline disabled:text-[gray_!important]  w-10'>
+                                            <FavoriteOutlinedIcon />
+                                        </IconButton>
+                                }
                             </div>
                         })
                     }

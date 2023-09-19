@@ -64,7 +64,50 @@
 /*# sourceMappingURL=index.css.map */
 
 
-.favoritesText{
+.favoritesText {
   text-shadow: 5px 5px 20px blue;
   font-weight: bold;
+}
+
+.testing {
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.content1 {
+  background: red;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.content2 {
+  background: blue;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.content3 {
+  background: yellow;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.content4 {
+  background: unset;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.dashboardBigDivs {
+  background: #10224A;
+  color: white;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }

@@ -5,6 +5,7 @@ import Home from './Pages/Home'
 import Navbar from './components/Navbar'
 import Favorites from './Pages/Favorites'
 import Dashboard from './Pages/Dashboard'
+import Details from './components/Details'
 
 
 const App: React.FC = () => {
@@ -21,6 +22,10 @@ const App: React.FC = () => {
     {
       path:'/dashboard',
       element:<Dashboard />
+    },
+    {
+      path:'/details',
+      element:<Details />
     }
   ])
 

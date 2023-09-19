@@ -2,12 +2,16 @@ import baseUrl from "../components/baseUrl";
 import { useAppDispatch, useAppSelector } from "../store/store"
 import PrimarySearchAppBar from '../components/Navbar'
 import { Data } from "../interfaces/data";
-import { IconButton, Tooltip } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import { deleteMovie } from "../store/Slice";
+import { useNavigate } from "react-router-dom";
+import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 
 const Favorites: React.FC = () => {
 
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const movies = useAppSelector((state) => state.movies.favorites)
@@ -24,18 +28,21 @@ const Favorites: React.FC = () => {
                                 <div className='content hover:shadow-[0_0_40px_black] dark:hover:shadow-[0_0_40px_blue] text-white hover:translate-y-[-10px] transition duration-300'>
                                     <div className="content-overlay"></div>
                                     <img src={baseUrl(movie.poster_path)} className='w-full rounded-lg md:h-[600px] ' alt="" />
-                                    <div className='content-details fadeIn-right '>
-                                        <span className='absolute translate-y-[-200px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content 18+</span>
+                                    <div className='content-details fadeIn-right text-[8px]'>
+                                        <span className='absolute translate-y-[-100px] md:translate-y-[-180px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content 18+</span>
 
                                         <p>Org lang : {movie.original_language}</p>
                                         <p>Pp: {movie.popularity}</p>
                                         <p>Release Date: {movie.release_date}</p>
-                                        <p>vote av: {movie.vote_average}</p>
-                                        <p>vote count: {movie.vote_count}</p>
-                                        {/* <p>{movie.overview}</p> */}
+                                        <p><GradeOutlinedIcon fontSize="small" color="warning" />: {movie.vote_average}</p>
+                                        <p><FavoriteOutlinedIcon color="error" />: {movie.vote_count}</p>
+                                        <div className='text-center pt-5'>
+                                            <Button onClick={() => navigate('/details', { state: { id: 1, movie: movie } })} variant="outlined" color='error'>MORE</Button>
+                                        </div>
                                     </div>
                                 </div>
                                 <p>{movie.title}</p>
+
                                 <Tooltip title='Delete from favorites' placement='bottom-start'>
                                     <IconButton onClick={() => dispatch(deleteMovie(movie.id))} className='inline text-[red_!important] w-10'>
                                         <DeleteForeverOutlinedIcon />
