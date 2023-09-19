@@ -20,7 +20,7 @@ const Favorites: React.FC = () => {
         <>
             <PrimarySearchAppBar />
             <div className="container">
-                <span className="dark:text-white  favoritesText mx-5 md:text-2xl">Favorites</span>
+                <span className="dark:text-white  textShadowText mx-5 md:text-2xl">Favorites</span>
                 <div className='p-10 grid grid-cols-2 md:grid-cols-4  gap-5'>
                     {
                         movies?.map((movie: Data, i) => {
@@ -28,14 +28,14 @@ const Favorites: React.FC = () => {
                                 <div className='content hover:shadow-[0_0_40px_black] dark:hover:shadow-[0_0_40px_blue] text-white hover:translate-y-[-10px] transition duration-300'>
                                     <div className="content-overlay"></div>
                                     <img src={baseUrl(movie.poster_path)} className='w-full rounded-lg md:h-[600px] ' alt="" />
-                                    <div className='content-details fadeIn-right text-[8px]'>
+                                    <div className='content-details fadeIn-right text-[6px] md:text-xl'>
                                         <span className='absolute translate-y-[-100px] md:translate-y-[-180px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content 18+</span>
 
                                         <p>Org lang : {movie.original_language}</p>
                                         <p>Pp: {movie.popularity}</p>
                                         <p>Release Date: {movie.release_date}</p>
-                                        <p><GradeOutlinedIcon fontSize="small" color="warning" />: {movie.vote_average}</p>
-                                        <p><FavoriteOutlinedIcon color="error" />: {movie.vote_count}</p>
+                                        <p><GradeOutlinedIcon sx={{fontSize:{sm:'6px' , md:'20px'}}} color="warning" />: {movie.vote_average}</p>
+                                        <p><FavoriteOutlinedIcon color="error" sx={{fontSize:{sm:'6px' , md:'20px'}}} />: {movie.vote_count}</p>
                                         <div className='text-center pt-5'>
                                             <Button onClick={() => navigate('/details', { state: { id: 1, movie: movie } })} variant="outlined" color='error'>MORE</Button>
                                         </div>

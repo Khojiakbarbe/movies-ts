@@ -20,6 +20,7 @@ import { LocalMode } from './LocalStorage';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { incProfileBadge } from '../store/Slice';
+import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
 
 
 
@@ -204,6 +205,15 @@ export default function PrimarySearchAppBar() {
                         onClick={() => navigate('/')}
                     >
                         MOVIES
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ ml: 2, display: { xs: 'none', sm: 'flex' }, alignItems:'center',gap:1,borderLeft:1,paddingLeft:2, cursor: 'pointer' }}
+                        onClick={() => navigate('/tv')}
+                    >
+                        TV<LiveTvOutlinedIcon />
                     </Typography>
                     <Search >
                         <SearchIconWrapper>

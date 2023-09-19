@@ -16,12 +16,8 @@ import { useNavigate } from 'react-router-dom';
 import { getLocalFavorites } from '../components/LocalStorage';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-const Home: React.FC = (): ReactJSXElement => {
+const TV: React.FC = (): ReactJSXElement => {
 
     const navigate = useNavigate();
 
@@ -35,33 +31,27 @@ const Home: React.FC = (): ReactJSXElement => {
 
     document.documentElement.scrollTo(0, 0);
 
-    const [list, setList] = useState('');
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setList(event.target.value);
-    };
 
     useEffect(() => {
-        if (Boolean(list)) {
-            getData(`https://api.themoviedb.org/3/movie/${list}?language=en-US&page=${page}`)
-        } else {
-            getData(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=truejnl&language=en-US&page=${page}&sort_by=popularity.desc`)
-        }
-    }, [page,list])
+        getData(page)
+    }, [page])
 
     const [pageCount, setPageCount] = useState<number>(1)
 
-    const getData = async (url: string): Promise<void> => {
+    const getData = async (page: number): Promise<void> => {
         setLoading(true)
-        const res = await axios.get(url, options)
+        const res = await axios.get(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${page}&sort_by=popularity.desc`, options)
         const data = await res.data.results;
+        console.log(data);
+
         setMovies(data)
         setPageCount(Math.ceil(res.data.total_pages / 100))
         setLoading(false)
     }
 
 
-    function changePage(_: React.ChangeEvent<unknown>, value: number): void {
+    function changePage(e: React.ChangeEvent<unknown>, value: number): void {
         setPage(value)
         dispatch(changePathPage(value))
     }
@@ -85,31 +75,11 @@ const Home: React.FC = (): ReactJSXElement => {
 
 
 
-
-
     return (
         <>
             <PrimarySearchAppBar />
             <div className='container mx-auto mb-11'>
-                <h1 className='text-blue-400 font-serif dark:text-white  dark:drop-shadow-[0_0_20px_blue] text-center md:text-6xl'>MOVIE</h1>
-                <FormControl sx={{ m: 1, minWidth: 80 }} className='border-4 border-[red_!important]'>
-                    <InputLabel className='dark:text-[white_!important]' id="demo-simple-select-autowidth-label">List</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-autowidth-label"
-                        id="demo-simple-select-autowidth"
-                        value={list}
-                        className='dark:text-[white_!important]'
-                        onChange={handleChange}
-                        autoWidth
-                        label="Age"
-                    >
-                        <MenuItem value=''>All</MenuItem>
-                        <MenuItem value='now_playing'>Now Playing</MenuItem>
-                        <MenuItem value='popular'>Popular</MenuItem>
-                        <MenuItem value='top_rated'>Top Rated</MenuItem>
-                        <MenuItem value='upcoming'>Up coming</MenuItem>
-                    </Select>
-                </FormControl>
+                <h1 className='text-7xl font-serif dark:text-white dark:drop-shadow-[0_0_20px_blue] text-center text-blue-400'>TV</h1>
                 {loading && <Skeletons />}
                 <div className='p-10 grid grid-cols-2 md:grid-cols-4  gap-5'>
                     {
@@ -122,21 +92,20 @@ const Home: React.FC = (): ReactJSXElement => {
                                         <span className='absolute translate-y-[-100px] md:translate-y-[-150px] left-5 text-sm text-red-600 border px-2 border-dashed border-red-600'>(perhaps: ) This content is 18+</span>
                                         <p>Org lang: {movie.original_language}</p>
                                         <p>Pp: {movie.popularity}</p>
-                                        <p>Release Date: {movie.release_date}</p>
                                         <p><GradeOutlinedIcon className='text-yellow-400' />: {movie.vote_average}</p>
                                         <p><FavoriteOutlinedIcon className='text-red-600' />: {movie.vote_count}</p>
                                         <div className='text-center pt-5'>
-                                            <Button onClick={() => navigate('/details', { state: { id: 1, type: 'movie', movie: movie } })} variant="outlined" color='error'>MORE</Button>
+                                            <Button onClick={() => navigate('/details', { state: { id: 1, type: 'tv', movie: movie } })} variant="outlined" color='error'>MORE</Button>
                                         </div>
                                     </div>
                                 </div>
-                                <p>{movie.title}</p>
+                                <p>{movie.name}</p>
 
                                 {
                                     checkFavorite(false, movie) ?
                                         <Tooltip title='Add to favorites' placement='bottom-start'>
                                             <IconButton onClick={() => checkFavorite(true, movie)} className='inline dark:text-red-600 w-10'>
-                                                <FavoriteOutlinedIcon />
+                                                <FavoriteOutlinedIcon color='error' />
                                             </IconButton>
                                         </Tooltip>
                                         :
@@ -156,4 +125,4 @@ const Home: React.FC = (): ReactJSXElement => {
     )
 }
 
-export default Home
+export default TV

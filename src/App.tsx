@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Favorites from './Pages/Favorites'
 import Dashboard from './Pages/Dashboard'
 import Details from './components/Details'
+import TV from './Pages/TV'
 
 
 const App: React.FC = () => {
@@ -26,6 +27,10 @@ const App: React.FC = () => {
     {
       path:'/details',
       element:<Details />
+    },
+    {
+      path:'/tv',
+      element:<TV/>
     }
   ])
 

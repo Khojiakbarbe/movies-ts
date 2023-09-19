@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { Data } from "../interfaces/data";
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined'
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import PrimarySearchAppBar from "./Navbar";
 import axios from 'axios';
+import { Button } from '@mui/material';
 
 
 const Details: React.FC = () => {
+
+    const navigate = useNavigate();
 
     const { state } = useLocation();
 
@@ -15,27 +18,42 @@ const Details: React.FC = () => {
 
     const [youtubeUrl, setYoutubeUrl] = useState<string>('')
 
+    const [youTubeVideo, setYouTubeVideo] = useState<boolean>(false)
+
     useEffect(() => {
-        axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=a753e8aaf7d0723716f884e11dcd42e0`)
+        axios.get(`https://api.themoviedb.org/3/${state.type}/${movie.id}/videos?api_key=a753e8aaf7d0723716f884e11dcd42e0`)
             .then(res => {
-                if (res.data?.results[1]) {
-                    setYoutubeUrl(res.data.results[1].key)
-                } else {
-                    setYoutubeUrl(res.data.results[0].key)
+                if (res.data) {
+                    if (res.data?.results[1]) {
+                        setYoutubeUrl(res.data.results[1].key)
+                    } else {
+                        setYoutubeUrl(res.data.results[0].key)
+                    }
+                    setYouTubeVideo(true)
                 }
             })
             .catch(err => console.log(err))
     }, [])
 
+    const [videoSearching,setVideoSearching] = useState<string>('Please wait...')
+
+    setTimeout(() => {
+        if(!youTubeVideo){
+            setVideoSearching('Sorry, Video not found!')
+        }
+    }, 10000)
 
     return (
         <div>
             <PrimarySearchAppBar />
+            <Button variant='outlined' sx={{ marginLeft: 5 }} color='error' onClick={() => navigate(-1)}>Back</Button>
             <div className='grid md:grid-cols-[auto_1fr] border-b-2 pb-2 gap-4 text-black dark:text-white my-4 font-serif text-xs md:text-2xl px-5 '>
-
+                <div className={`w-full md:w-[500px] text-gray-600 flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg md:h-[600px] ${youTubeVideo && 'hidden'}`}>
+                    <h1>{videoSearching}</h1>
+                </div>
                 <iframe src={`https://www.youtube.com/embed/${youtubeUrl}`}
                     frameBorder='0'
-                    className='w-full md:w-[500px] rounded-lg md:h-[600px]'
+                    className={`w-full md:w-[500px] rounded-lg md:h-[600px] ${!youTubeVideo && 'hidden'}`}
                     allow='autoplay; encrypted-media'
                     allowFullScreen
                     title='video'
