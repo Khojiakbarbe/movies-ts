@@ -7,12 +7,11 @@ import baseUrl from '../components/baseUrl';
 import Pagination from '@mui/material/Pagination';
 import { ReactJSXElement } from '@emotion/react/dist/declarations/types/jsx-namespace';
 import Skeletons from '../components/Skeletons';
-import AddCardOutlinedIcon from '@mui/icons-material/AddCardOutlined';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import PrimarySearchAppBar from '../components/Navbar';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { addMovie, incProfileBadge } from '../store/Slice';
+import { addMovie, changePathPage, incProfileBadge } from '../store/Slice';
 import { useNavigate } from 'react-router-dom';
 import { getLocalFavorites } from '../components/LocalStorage';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
@@ -22,11 +21,17 @@ const Home: React.FC = (): ReactJSXElement => {
 
     const navigate = useNavigate();
 
+    const pathPage = useAppSelector(state => state.movies.page)
     const dispatch = useAppDispatch();
 
+
     const [movies, setMovies] = useState<Data[]>([])
-    const [page, setPage] = useState<number>(1)
+    const [page, setPage] = useState<number>(pathPage)
     const [loading, setLoading] = useState<boolean>(false)
+
+    document.documentElement.scrollTo(0, 0);
+
+
 
     useEffect(() => {
         getData(page)
@@ -44,8 +49,9 @@ const Home: React.FC = (): ReactJSXElement => {
     }
 
 
-    function changePage(_: React.ChangeEvent<unknown>, value: number): void {
+    function changePage(e: React.ChangeEvent<unknown>, value: number): void {
         setPage(value)
+        dispatch(changePathPage(value))
     }
 
 

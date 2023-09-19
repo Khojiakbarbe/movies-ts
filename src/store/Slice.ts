@@ -5,12 +5,15 @@ import { Data } from "../interfaces/data";
 
 interface MoviesState {
     favorites: Data[],
-    profileBadge: number
+    profileBadge: number,
+    page:number,
+    [index: string]: Data[] | number
 }
 
 const initialState: MoviesState = {
     favorites: getLocalFavorites(),
-    profileBadge: 0
+    profileBadge: 0,
+    page: 1
 };
 
 const MovieSlice = createSlice({
@@ -28,9 +31,11 @@ const MovieSlice = createSlice({
             state.favorites = state.favorites.filter(m => m.id !== action.payload)
             addFavorites(state.favorites)
         },
-        incProfileBadge: (state, action: PayloadAction<number>) => { state.profileBadge = action.payload }
+        changePathPage: (state, action: PayloadAction<number>) => {state.page = action.payload},
+        incProfileBadge: (state, action: PayloadAction<number>) => { state.profileBadge = action.payload },
+        incProfileBawdge: (state, action: PayloadAction<number>) => { state.profileBadge = action.payload },
     },
 });
 
 export const MoviesReducer = MovieSlice.reducer;
-export const { addMovie, deleteMovie, incProfileBadge } = MovieSlice.actions
+export const { addMovie, deleteMovie, changePathPage,incProfileBadge } = MovieSlice.actions

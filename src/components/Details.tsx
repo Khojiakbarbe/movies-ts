@@ -19,12 +19,10 @@ const Details: React.FC = () => {
         axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=a753e8aaf7d0723716f884e11dcd42e0`)
             .then(res => {
                 if (res.data?.results[1]) {
-                    
                     setYoutubeUrl(res.data.results[1].key)
                 } else {
                     setYoutubeUrl(res.data.results[0].key)
                 }
-                console.log(state);              
             })
             .catch(err => console.log(err))
     }, [])
