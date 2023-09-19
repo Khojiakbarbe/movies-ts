@@ -1,25 +1,56 @@
+import { Button } from '@mui/material'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Footer from '../components/Footer'
 import PrimarySearchAppBar from "../components/Navbar"
+import Swipper from "../components/Swipper"
+import { Data } from "../interfaces/data"
+import { options } from '../option'
 
 const Dashboard: React.FC = () => {
+
+    const navigate = useNavigate();
+
+    const [movies, setMovies] = useState<Data[]>([])
+    const [tv, setTv] = useState<Data[]>([])
+
+    useEffect(() => {
+        (async () => {
+            const res = await axios.get('https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=truejnl&language=en-US&page=1&sort_by=popularity.desc', options)
+            const data = await res.data.results
+            setMovies(data)
+
+            const resTv = await axios.get('https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc', options)
+            const dataTv = await resTv.data.results;
+            setTv(dataTv)
+        })()
+    })
+
     return (
         <>
             <PrimarySearchAppBar />
-            <div className="dashboardBigDivs content1">
-                <h1 className="text-5xl">Dashboard TEAM</h1>
-                <h1 className="text-5xl">Dashboard TEAM</h1>
-                <h1 className="text-5xl">Dashboard TEAM</h1>
+            <div className='relative'>
+            <img src="https://www.tinkle.in/wp-content/uploads/2021/02/Time-For-The-Theatre_Thumbnail_428x325.png" className='mx-auto' />
             </div>
-            <div className="dashboardBigDivs content2">
-                <img src="" alt="" />
+            <div className='flex justify-around my-5'>
+                <h2 className='text-4xl dark:text-white text-center'>MOVIES</h2>
+                <Button variant='outlined' color='error' onClick={() => navigate('/')}>
+                    movies page
+                </Button>
             </div>
-            <div className="dashboardBigDivs content3">
-                <h1 className="text-5xl">Dashboard TEAM</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem quae ea nihil distinctio incidunt aperiam, perferendis eaque possimus accusamus, laboriosam dolor magni eius maxime ab praesentium saepe explicabo nulla at vitae nesciunt. Magni, ut omnis eligendi labore excepturi suscipit alias officia mollitia corrupti cumque architecto, accusamus id consectetur dolorum tempora eveniet delectus deleniti, nihil maiores saepe eius adipisci soluta dolores! Alias distinctio, mollitia, velit ducimus commodi culpa dolor quam corrupti libero eos quod. Dolorem doloribus incidunt nisi consequatur libero? Voluptatem ipsum consequatur quod, nostrum accusantium modi culpa id esse ex nisi alias repellat sint velit quibusdam adipisci, maiores quae quidem ratione, debitis ipsa corrupti. Dolore pariatur laborum quisquam inventore at amet sequi dolorum similique voluptate nisi repellat debitis est accusamus odio, veniam nemo. Eius est perspiciatis vitae quas aperiam reiciendis expedita, quibusdam obcaecati cumque! Illum ut amet qui porro deserunt ipsum quod, provident officiis sed vitae sequi cum enim, dolore unde, autem numquam exercitationem repellendus optio nesciunt expedita perspiciatis nihil eum accusantium. Dolorum, veniam. Totam quas aliquam suscipit harum nobis perferendis dignissimos aspernatur et, incidunt neque possimus qui, reprehenderit aperiam consequatur culpa maiores quibusdam debitis! Cupiditate distinctio ratione adipisci optio quae, placeat perferendis ipsa iure? Reiciendis sed nesciunt tenetur quae officiis consequuntur repellat, provident earum. Laborum fugit eaque iusto cumque dolore? Pariatur aut vitae modi, dicta maiores quam et veniam placeat repellat consequatur quis voluptas unde aspernatur at iusto itaque. Expedita, eaque hic velit harum minus magni, enim vitae minima debitis recusandae cum accusamus eius obcaecati nostrum? Asperiores eligendi, voluptatibus quod recusandae ipsam libero voluptatum quidem molestiae, nihil vitae ipsa optio odio a architecto aliquid quisquam voluptas, earum ullam perferendis? Quia, soluta! Veniam, quisquam nesciunt inventore ab doloremque pariatur sunt fugit cum laboriosam debitis, non nobis et ipsa? Omnis quo, tempore ducimus cum suscipit saepe accusantium officiis id repellendus deserunt!</p>
+            <Swipper movies={movies} />
+
+            <div className='flex justify-around mt-10 mb-5'>
+                <h2 className='text-4xl dark:text-white text-center'>TV Series</h2>
+                <Button variant='outlined' color='error' onClick={() => navigate('/tv')}>
+                    tv page
+                </Button>
             </div>
-            <div className="dashboardBigDivs content4">
-                <h1 className="text-5xl">Dashboard TEAM</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem quae ea nihil distinctio incidunt aperiam, perferendis eaque possimus accusamus, laboriosam dolor magni eius maxime ab praesentium saepe explicabo nulla at vitae nesciunt. Magni, ut omnis eligendi labore excepturi suscipit alias officia mollitia corrupti cumque architecto, accusamus id consectetur dolorum tempora eveniet delectus deleniti, nihil maiores saepe eius adipisci soluta dolores! Alias distinctio, mollitia, velit ducimus commodi culpa dolor quam corrupti libero eos quod. Dolorem doloribus incidunt nisi consequatur libero? Voluptatem ipsum consequatur quod, nostrum accusantium modi culpa id esse ex nisi alias repellat sint velit quibusdam adipisci, maiores quae quidem ratione, debitis ipsa corrupti. Dolore pariatur laborum quisquam inventore at amet sequi dolorum similique voluptate nisi repellat debitis est accusamus odio, veniam nemo. Eius est perspiciatis vitae quas aperiam reiciendis expedita, quibusdam obcaecati cumque! Illum ut amet qui porro deserunt ipsum quod, provident officiis sed vitae sequi cum enim, dolore unde, autem numquam exercitationem repellendus optio nesciunt expedita perspiciatis nihil eum accusantium. Dolorum, veniam. Totam quas aliquam suscipit harum nobis perferendis dignissimos aspernatur et, incidunt neque possimus qui, reprehenderit aperiam consequatur culpa maiores quibusdam debitis! Cupiditate distinctio ratione adipisci optio quae, placeat perferendis ipsa iure? Reiciendis sed nesciunt tenetur quae officiis consequuntur repellat, provident earum. Laborum fugit eaque iusto cumque dolore? Pariatur aut vitae modi, dicta maiores quam et veniam placeat repellat consequatur quis voluptas unde aspernatur at iusto itaque. Expedita, eaque hic velit harum minus magni, enim vitae minima debitis recusandae cum accusamus eius obcaecati nostrum? Asperiores eligendi, voluptatibus quod recusandae ipsam libero voluptatum quidem molestiae, nihil vitae ipsa optio odio a architecto aliquid quisquam voluptas, earum ullam perferendis? Quia, soluta! Veniam, quisquam nesciunt inventore ab doloremque pariatur sunt fugit cum laboriosam debitis, non nobis et ipsa? Omnis quo, tempore ducimus cum suscipit saepe accusantium officiis id repellendus deserunt!</p>
-            </div>
+            <Swipper movies={tv} />
+
+            <Footer />
+
         </>
     )
 }

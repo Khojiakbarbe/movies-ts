@@ -20,6 +20,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Dashboard } from '@mui/icons-material';
 
 const Home: React.FC = (): ReactJSXElement => {
 
@@ -47,7 +48,7 @@ const Home: React.FC = (): ReactJSXElement => {
         } else {
             getData(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=truejnl&language=en-US&page=${page}&sort_by=popularity.desc`)
         }
-    }, [page,list])
+    }, [page, list])
 
     const [pageCount, setPageCount] = useState<number>(1)
 
@@ -90,7 +91,7 @@ const Home: React.FC = (): ReactJSXElement => {
     return (
         <>
             <PrimarySearchAppBar />
-            <div className='container mx-auto mb-11'>
+            <div className='container mx-auto my-11'>
                 <h1 className='text-blue-400 font-serif dark:text-white  dark:drop-shadow-[0_0_20px_blue] text-center md:text-6xl'>MOVIE</h1>
                 <FormControl sx={{ m: 1, minWidth: 80 }} className='border-4 border-[red_!important]'>
                     <InputLabel className='dark:text-[white_!important]' id="demo-simple-select-autowidth-label">List</InputLabel>
