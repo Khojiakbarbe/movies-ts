@@ -11,7 +11,7 @@ import baseUrl from './baseUrl';
 
 const Swipper: React.FC<{ movies: Data[] }> = (item) => {
     return (
-        <div>
+        <div className='px-2 md:p-0'>
             <Swiper
                 slidesPerView={3.5}
                 spaceBetween={10}

@@ -31,8 +31,8 @@ const Dashboard: React.FC = () => {
 
             <PrimarySearchAppBar />
             <div className='relative'>
-                <p className='dark:drop-shadow-[0_0_20px_yellow] text-9xl dark:animate-bounce text-center text-yellow-400 font-serif'>MOVIE</p>
-                    <p className='dark:drop-shadow-[0_0_20px_blue] text-9xl text-center dark:animate-pulse text-blue-600 font-serif'>TIME</p>
+                <p className='dark:drop-shadow-[0_0_20px_yellow] text-3xl md:text-9xl dark:animate-bounce text-center text-yellow-400 font-serif'>MOVIE</p>
+                <p className='dark:drop-shadow-[0_0_20px_blue] text-3xl md:text-9xl text-center dark:animate-pulse text-blue-600 font-serif'>TIME</p>
             </div>
             <div className='flex items-center justify-around my-5'>
                 <h2 className='md:text-4xl dark:text-white text-center'>MOVIES</h2>
