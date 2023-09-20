@@ -150,7 +150,7 @@ export default function Footer() {
           </ListItem>
           <ListItem nested sx={{ width: { xs: '50%', md: 180 } }}>
             <ListSubheader>Product</ListSubheader>
-            <List sx={{ '--ListItemDecorator-size': '32px' }}>
+            <List >
               <ListItem>
                 <a href="https://small-shop-zeta.vercel.app/">
                   <ListItemButton>

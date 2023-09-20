@@ -52,7 +52,9 @@ const TV: React.FC = (): ReactJSXElement => {
     }
 
 
-    function changePage(_: React.ChangeEvent<unknown>, value: number): void {
+    function changePage(e: React.ChangeEvent<unknown>, value: number): void {
+        console.log(e);
+        
         setPage(value)
         dispatch(changePathPage(value))
     }
