@@ -20,7 +20,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Dashboard } from '@mui/icons-material';
 
 const Home: React.FC = (): ReactJSXElement => {
 
@@ -57,7 +56,7 @@ const Home: React.FC = (): ReactJSXElement => {
         const res = await axios.get(url, options)
         const data = await res.data.results;
         setMovies(data)
-        setPageCount(Math.ceil(res.data.total_pages / 100))
+        setPageCount(Math.ceil(res.data.total_pages / 10))
         setLoading(false)
     }
 
