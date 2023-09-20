@@ -20,8 +20,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Footer from '../components/Footer';
 
-const Home: React.FC = (): ReactJSXElement => {
+const Movies: React.FC = (): ReactJSXElement => {
 
     const navigate = useNavigate();
 
@@ -56,7 +57,7 @@ const Home: React.FC = (): ReactJSXElement => {
         const res = await axios.get(url, options)
         const data = await res.data.results;
         setMovies(data)
-        setPageCount(Math.ceil(res.data.total_pages / 10))
+        setPageCount(Math.ceil(res.data.total_pages / 80))
         setLoading(false)
     }
 
@@ -152,8 +153,9 @@ const Home: React.FC = (): ReactJSXElement => {
                     <Pagination className=' md:absolute left-[35%] rounded-lg bg-white text-center' count={pageCount} page={page} showFirstButton showLastButton onChange={changePage} />
                 </div>
             </div>
+            <Footer/>
         </>
     )
 }
 
-export default Home
+export default Movies;

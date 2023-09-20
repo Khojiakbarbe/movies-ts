@@ -1,42 +1,38 @@
-import { useRef, useState } from 'react';
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-
-
-// import required modules
 import { Pagination } from 'swiper/modules';
 import { Data } from '../interfaces/data';
 import baseUrl from './baseUrl';
 
 
 
-const Swipper:React.FC<{movies:Data[]}> = (item) => {
+const Swipper: React.FC<{ movies: Data[] }> = (item) => {
     return (
-        <>
+        <div>
             <Swiper
-                slidesPerView={3.5} 
+                slidesPerView={3.5}
                 spaceBetween={10}
                 pagination={{
                     clickable: true,
                 }}
                 modules={[Pagination]}
-                className="mySwiper w-[60%_!important]"
+                className="mySwiper md:w-[60%_!important]"
             >
                 {
-                    item.movies.map(m =>  {
-                        return <SwiperSlide className=' rounded-2xl'>
-                            <img className=' w-[100px] rounded-2xl' src={baseUrl(m.poster_path,'small')} alt="" />
+                    item.movies.slice(0, 6).map((m, i) => {
+                        return <SwiperSlide className='rounded-2xl' key={i}>
+                            <div>
+                                <img className='md:w-[100px] md:h-[400px_!important] rounded-2xl' src={baseUrl(m.poster_path, 'small')} alt="" />
+                                <h1 className='text-[8px] sm:text-lg'>{m.title ? m.title.slice(0, 14) : m.name?.slice(0, 14)}</h1>
+                            </div>
                         </SwiperSlide>
                     })
                 }
-                {/* <SwiperSlide>Slide 1</SwiperSlide> */}
             </Swiper>
-        </>
+        </div>
     );
 }
 

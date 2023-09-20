@@ -204,13 +204,23 @@ export default function PrimarySearchAppBar() {
                         sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
                         onClick={() => navigate('/')}
                     >
+                        HOME
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ marginX: 4, display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
+                        onClick={() => navigate('/movies')}
+                        className='border-x-2 px-3 mx-3'
+                    >
                         MOVIES
                     </Typography>
                     <Typography
                         variant="h6"
                         noWrap
                         component="div"
-                        sx={{ ml: 2, display: { xs: 'none', sm: 'flex' }, alignItems:'center',gap:1,borderLeft:1,paddingLeft:2, cursor: 'pointer' }}
+                        sx={{ display: { xs: 'none', sm: 'flex' }, alignItems: 'center', gap: 1, cursor: 'pointer' }}
                         onClick={() => navigate('/tv')}
                     >
                         TV<LiveTvOutlinedIcon />

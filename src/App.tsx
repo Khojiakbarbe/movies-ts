@@ -1,28 +1,27 @@
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './App.scss'
-import Home from './Pages/Home'
-import Navbar from './components/Navbar'
 import Favorites from './Pages/Favorites'
 import Dashboard from './Pages/Dashboard'
 import Details from './components/Details'
 import TV from './Pages/TV'
+import Movies from './Pages/Movies'
 
 
 const App: React.FC = () => {
 
   const routes = createBrowserRouter([
     {
-      path: '/',
-      element: <Home />
+      path:'/',
+      element:<Dashboard />
+    },
+    {
+      path: '/movies',
+      element: <Movies />
     },
     {
       path:'/favorites',
       element:<Favorites />
-    },
-    {
-      path:'/dashboard',
-      element:<Dashboard />
     },
     {
       path:'/details',

@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { getLocalFavorites } from '../components/LocalStorage';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
+import Footer from '../components/Footer';
 
 const TV: React.FC = (): ReactJSXElement => {
 
@@ -121,6 +122,7 @@ const TV: React.FC = (): ReactJSXElement => {
                     <Pagination className=' md:absolute left-[35%] rounded-lg bg-white text-center' count={pageCount} page={page} showFirstButton showLastButton onChange={changePage} />
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

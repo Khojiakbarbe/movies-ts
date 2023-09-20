@@ -7,7 +7,6 @@ import PrimarySearchAppBar from "../components/Navbar"
 import Swipper from "../components/Swipper"
 import { Data } from "../interfaces/data"
 import { options } from '../option'
-
 const Dashboard: React.FC = () => {
 
     const navigate = useNavigate();
@@ -29,26 +28,28 @@ const Dashboard: React.FC = () => {
 
     return (
         <>
+
             <PrimarySearchAppBar />
             <div className='relative'>
-            <img src="https://www.tinkle.in/wp-content/uploads/2021/02/Time-For-The-Theatre_Thumbnail_428x325.png" className='mx-auto' />
+                <p className='dark:drop-shadow-[0_0_20px_yellow] text-9xl dark:animate-bounce text-center text-yellow-400 font-serif'>MOVIE</p>
+                    <p className='dark:drop-shadow-[0_0_20px_blue] text-9xl text-center darKanimate-pulse text-blue-600 font-serif'>TIME</p>
             </div>
-            <div className='flex justify-around my-5'>
-                <h2 className='text-4xl dark:text-white text-center'>MOVIES</h2>
-                <Button variant='outlined' color='error' onClick={() => navigate('/')}>
+            <div className='flex items-center justify-around my-5'>
+                <h2 className='md:text-4xl dark:text-white text-center'>MOVIES</h2>
+                <Button sx={{ fontSize: { xs: '10px', md: '24px' } }} variant='outlined' color='error' onClick={() => navigate('/movies')}>
                     movies page
                 </Button>
             </div>
+
             <Swipper movies={movies} />
 
             <div className='flex justify-around mt-10 mb-5'>
-                <h2 className='text-4xl dark:text-white text-center'>TV Series</h2>
-                <Button variant='outlined' color='error' onClick={() => navigate('/tv')}>
+                <h2 className='md:text-4xl dark:text-white text-center'>TV Series</h2>
+                <Button sx={{ fontSize: { xs: '10px', md: '24px' } }} variant='outlined' color='error' onClick={() => navigate('/tv')}>
                     tv page
                 </Button>
             </div>
             <Swipper movies={tv} />
-
             <Footer />
 
         </>
