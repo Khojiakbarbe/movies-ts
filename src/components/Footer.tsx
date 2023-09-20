@@ -10,7 +10,6 @@ import Input from '@mui/joy/Input';
 import List from '@mui/joy/List';
 import ListSubheader from '@mui/joy/ListSubheader';
 import ListItem from '@mui/joy/ListItem';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemButton from '@mui/joy/ListItemButton';
 import Typography from '@mui/joy/Typography';
 import Sheet from '@mui/joy/Sheet';
@@ -155,13 +154,6 @@ export default function Footer() {
               <ListItem>
                 <a href="https://small-shop-zeta.vercel.app/">
                   <ListItemButton>
-                    {/* <ListItemDecorator>
-                      <img
-                        alt=""
-                        src="/static/branding/product-core-dark.svg"
-                        width="24"
-                      />
-                    </ListItemDecorator> */}
                     Shop
                   </ListItemButton>
                 </a>
