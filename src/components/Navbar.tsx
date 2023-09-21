@@ -13,14 +13,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { LocalMode } from './LocalStorage';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { incProfileBadge } from '../store/Slice';
+import { incProfileBadge, searchResult } from '../store/Slice';
 import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
+import axios from 'axios';
+import { options } from '../option';
 
 
 
@@ -183,6 +185,28 @@ export default function PrimarySearchAppBar() {
         </Menu>
     );
 
+    const [searchVal, setSearchVal] = useState<string>('')
+
+    const getSearchData = async (word: string): Promise<void> => {
+        const res = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${word}&include_adult=false&language=en-US&page=1`, options)
+        const data = res.data;
+        dispatch(searchResult({ result: data.results }))
+    }
+
+    function search(e: React.FormEvent): void {
+        e.preventDefault();
+        getSearchData(searchVal)
+    }
+
+    function handleSearch(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        e.preventDefault();
+        if (!e.target.value) {
+            dispatch(searchResult({ result: []}))
+        }
+        setSearchVal(e.target.value)
+    }
+
+
     return (
         <Box sx={{ flexGrow: 1 }} >
             <AppBar position="static" className='mb-5'>
@@ -229,10 +253,12 @@ export default function PrimarySearchAppBar() {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase disabled
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
+                        <form onSubmit={(e) => search(e)}>
+                            <StyledInputBase onChange={(e) => handleSearch(e)}
+                                placeholder="Search…"
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        </form>
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <IconButton className='dark:text-white' onClick={() => setMode(!mode)}>

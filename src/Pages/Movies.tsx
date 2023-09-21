@@ -27,6 +27,11 @@ const Movies: React.FC = (): ReactJSXElement => {
     const navigate = useNavigate();
 
     const pathPage = useAppSelector(state => state.movies.page)
+
+    const searchResult = useAppSelector(state => state.movies.search)
+    console.log(searchResult);
+
+
     const dispatch = useAppDispatch();
 
 
@@ -46,19 +51,23 @@ const Movies: React.FC = (): ReactJSXElement => {
         if (Boolean(list)) {
             getData(`https://api.themoviedb.org/3/movie/${list}?language=en-US&page=${page}`)
         } else {
-            getData(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=truejnl&language=en-US&page=${page}&sort_by=popularity.desc`)
+            getData(`https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=truejnl&language=en-US&page=${page}&sort_by=popularity.desc`)
         }
-    }, [page, list])
+    }, [page, list,searchResult])
 
     const [pageCount, setPageCount] = useState<number>(1)
 
     const getData = async (url: string): Promise<void> => {
-        setLoading(true)
-        const res = await axios.get(url, options)
-        const data = await res.data.results;
-        setMovies(data)
-        setPageCount(Math.ceil(res.data.total_pages / 80))
-        setLoading(false)
+        if(searchResult?.length){
+            setMovies(searchResult)
+        }else{
+            setLoading(true)
+            const res = await axios.get(url, options)
+            const data = await res.data.results;
+            setMovies(data)
+            setPageCount(Math.ceil(res.data.total_pages / 80))
+            setLoading(false)
+        }
     }
 
 
@@ -84,8 +93,9 @@ const Movies: React.FC = (): ReactJSXElement => {
         }
     }
 
-
-
+    // window.addEventListener('scroll', ()=>{  
+    //     console.log((document.documentElement.scrollTop / document.documentElement.clientHeight) * 100);
+    // })
 
 
     return (
@@ -153,7 +163,7 @@ const Movies: React.FC = (): ReactJSXElement => {
                     <Pagination className=' md:absolute left-[35%] rounded-lg bg-white text-center' count={pageCount} page={page} showFirstButton showLastButton onChange={changePage} />
                 </div>
             </div>
-            <Footer/>
+            <Footer />
         </>
     )
 }
