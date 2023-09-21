@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { options } from '../option'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, MouseEventHandler, useRef } from 'react'
 import { Data } from '../interfaces/data'
 import Button from '@mui/material/Button';
 import baseUrl from '../components/baseUrl';
@@ -11,63 +11,55 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import PrimarySearchAppBar from '../components/Navbar';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { addMovie, changePathPage, incProfileBadge } from '../store/Slice';
+import { addMovie, changePathPage, incProfileBadge, searchResult } from '../store/Slice';
 import { useNavigate } from 'react-router-dom';
 import { getLocalFavorites } from '../components/LocalStorage';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import GradeOutlinedIcon from '@mui/icons-material/GradeOutlined';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Footer from '../components/Footer';
 
 const Movies: React.FC = (): ReactJSXElement => {
 
+    document.documentElement.scrollTo(0, 0);
     const navigate = useNavigate();
-
-    const pathPage = useAppSelector(state => state.movies.page)
-
-    const searchResult = useAppSelector(state => state.movies.search)
-    console.log(searchResult);
-
-
     const dispatch = useAppDispatch();
+    const pathPage = useAppSelector(state => state.movies.page)
+    const search = useAppSelector(state => state.movies.search)
+
 
 
     const [movies, setMovies] = useState<Data[]>([])
     const [page, setPage] = useState<number>(pathPage)
     const [loading, setLoading] = useState<boolean>(false)
 
-    document.documentElement.scrollTo(0, 0);
 
     const [list, setList] = useState('');
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setList(event.target.value);
-    };
-
     useEffect(() => {
-        if (Boolean(list)) {
-            getData(`https://api.themoviedb.org/3/movie/${list}?language=en-US&page=${page}`)
+        if (search?.length) {
+            getData(`https://api.themoviedb.org/3/search/movie?query=${search}&include_adult=false&language=en-US&page=${page}`)
         } else {
-            getData(`https://api.themoviedb.org/3/discover/movie?include_adult=true&include_video=truejnl&language=en-US&page=${page}&sort_by=popularity.desc`)
+            if (Boolean(list)) {
+                getData(`https://api.themoviedb.org/3/movie/${list}?language=en-US&page=${page}`)
+            } else {
+                getData(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=truejnl&language=en-US&page=${page}&sort_by=popularity.desc`)
+            }
         }
-    }, [page, list,searchResult])
+    }, [page, list, search])
 
     const [pageCount, setPageCount] = useState<number>(1)
 
     const getData = async (url: string): Promise<void> => {
-        if(searchResult?.length){
-            setMovies(searchResult)
-        }else{
-            setLoading(true)
-            const res = await axios.get(url, options)
-            const data = await res.data.results;
-            setMovies(data)
+        setLoading(true)
+        const res = await axios.get(url, options)
+        const data = await res.data.results;
+        setMovies(data)
+        if (search?.length) {
+            setPageCount(res.data.total_pages)
+        } else {
             setPageCount(Math.ceil(res.data.total_pages / 80))
-            setLoading(false)
         }
+        setLoading(false)
     }
 
 
@@ -98,29 +90,31 @@ const Movies: React.FC = (): ReactJSXElement => {
     // })
 
 
+
+
+
+
+
+    function Change(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        dispatch(searchResult(''))
+        dispatch(changePathPage(1))
+        setList(e.currentTarget.value)
+    }
+
+
+
     return (
         <>
             <PrimarySearchAppBar />
             <div className='container mx-auto my-11'>
                 <h1 className='text-blue-400 font-serif dark:text-white  dark:drop-shadow-[0_0_20px_blue] text-center md:text-6xl'>MOVIE</h1>
-                <FormControl sx={{ m: 1, minWidth: 80 }} className='border-4 border-[red_!important]'>
-                    <InputLabel className='dark:text-[white_!important]' id="demo-simple-select-autowidth-label">List</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-autowidth-label"
-                        id="demo-simple-select-autowidth"
-                        value={list}
-                        className='dark:text-[white_!important]'
-                        onChange={handleChange}
-                        autoWidth
-                        label="Age"
-                    >
-                        <MenuItem value=''>All</MenuItem>
-                        <MenuItem value='now_playing'>Now Playing</MenuItem>
-                        <MenuItem value='popular'>Popular</MenuItem>
-                        <MenuItem value='top_rated'>Top Rated</MenuItem>
-                        <MenuItem value='upcoming'>Up coming</MenuItem>
-                    </Select>
-                </FormControl>
+                <div className='flex items-center justify-center gap-5'>
+                    <Button className='cursor-pointer' variant='outlined' value='' onClick={(e) => Change(e)}>All</Button>
+                    <Button className='cursor-pointer' value='now_playing' onClick={(e) => Change(e)}>Now Playing</Button>
+                    <Button className='cursor-pointer' value='popular' onClick={(e) => Change(e)}>Popular</Button>
+                    <Button className='cursor-pointer' value='top_rated' onClick={(e) => Change(e)}>Top Rated</Button>
+                    <Button className='cursor-pointer' value='upcoming' onClick={(e) => Change(e)}>Up Coming</Button>
+                </div>
                 {loading && <Skeletons />}
                 <div className='p-10 grid grid-cols-2 md:grid-cols-4  gap-5'>
                     {
@@ -141,7 +135,7 @@ const Movies: React.FC = (): ReactJSXElement => {
                                         </div>
                                     </div>
                                 </div>
-                                <p>{movie.title}</p>
+                                <p>{movie.title.slice(0, 12)}</p>
 
                                 {
                                     checkFavorite(false, movie) ?

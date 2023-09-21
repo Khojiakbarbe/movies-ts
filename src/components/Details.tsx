@@ -6,6 +6,7 @@ import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined'
 import PrimarySearchAppBar from "./Navbar";
 import axios from 'axios';
 import { Button } from '@mui/material';
+import baseUrl from './baseUrl';
 
 
 const Details: React.FC = () => {
@@ -35,19 +36,22 @@ const Details: React.FC = () => {
             .catch(err => console.log(err))
     }, [])
 
-    const [videoSearching,setVideoSearching] = useState<string>('Please wait...')
+    const [videoSearching, setVideoSearching] = useState<string>('Please wait...')
 
     setTimeout(() => {
-        if(!youTubeVideo){
+        if (!youTubeVideo) {
             setVideoSearching('Sorry, Video not found!')
         }
     }, 10000)
+
+    window.scrollTo(0, 0)
 
     return (
         <div>
             <PrimarySearchAppBar />
             <Button variant='outlined' sx={{ marginLeft: 5 }} color='error' onClick={() => navigate(-1)}>Back</Button>
-            <div className='grid md:grid-cols-[auto_1fr] border-b-2 pb-2 gap-4 text-black dark:text-white my-4 font-serif text-xs md:text-2xl px-5 '>
+            <img src={baseUrl(movie.backdrop_path)} className='w-[60%] mx-auto h-auto z-[-1]' style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }} alt="" />
+            <div className='grid md:grid-cols-[1fr_1fr] border-b-2 pb-2 gap-4 text-black dark:text-white my-4 font-serif text-xs md:text-2xl px-5 '>
                 <div className={`w-full md:w-[500px] text-gray-600 flex items-center justify-center border-2 border-dashed border-gray-600 rounded-lg md:h-[600px] ${youTubeVideo && 'hidden'}`}>
                     <h1>{videoSearching}</h1>
                 </div>

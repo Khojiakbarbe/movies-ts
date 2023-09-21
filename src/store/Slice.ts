@@ -7,15 +7,15 @@ interface MoviesState {
     favorites: Data[],
     profileBadge: number,
     page: number,
-    search?: Data[]
-    [index: string]: Data[] | number | undefined,
+    search: string,
+    [index: string]: Data[] | number | string,
 }
 
 const initialState: MoviesState = {
     favorites: getLocalFavorites(),
     profileBadge: 0,
     page: 1,
-    search:[]
+    search:''
 };
 
 const MovieSlice = createSlice({
@@ -36,8 +36,8 @@ const MovieSlice = createSlice({
         changePathPage: (state, action: PayloadAction<number>) => { state.page = action.payload },
         incProfileBadge: (state, action: PayloadAction<number>) => { state.profileBadge = action.payload },
         incProfileBawdge: (state, action: PayloadAction<number>) => { state.profileBadge = action.payload },
-        searchResult: (state, action: PayloadAction<{ result: Data[] | [] }>) => {
-            state.search = action.payload.result
+        searchResult: (state, action: PayloadAction<string>) => {
+            state.search = action.payload
         }
     },
 });

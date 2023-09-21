@@ -185,27 +185,18 @@ export default function PrimarySearchAppBar() {
         </Menu>
     );
 
-    const [searchVal, setSearchVal] = useState<string>('')
+    const searchStoreVal = useAppSelector(state => state.movies.search)
 
-    const getSearchData = async (word: string): Promise<void> => {
-        const res = await axios.get(`https://api.themoviedb.org/3/search/movie?query=${word}&include_adult=false&language=en-US&page=1`, options)
-        const data = res.data;
-        dispatch(searchResult({ result: data.results }))
-    }
+    const [searchVal, setSearchVal] = useState<string>(searchStoreVal)
+
+    useEffect(() => {
+        setSearchVal(searchStoreVal)
+    }, [searchStoreVal])
 
     function search(e: React.FormEvent): void {
         e.preventDefault();
-        getSearchData(searchVal)
+        dispatch(searchResult(searchVal))
     }
-
-    function handleSearch(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        e.preventDefault();
-        if (!e.target.value) {
-            dispatch(searchResult({ result: []}))
-        }
-        setSearchVal(e.target.value)
-    }
-
 
     return (
         <Box sx={{ flexGrow: 1 }} >
@@ -253,9 +244,10 @@ export default function PrimarySearchAppBar() {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <form onSubmit={(e) => search(e)}>
-                            <StyledInputBase onChange={(e) => handleSearch(e)}
+                        <form onSubmit={search}>
+                            <StyledInputBase onChange={(e) => setSearchVal(e.target.value)}
                                 placeholder="Search…"
+                                value={searchVal}
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </form>
