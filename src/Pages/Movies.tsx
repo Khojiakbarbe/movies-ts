@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { options } from '../option'
-import { useState, useEffect, MouseEventHandler, useRef } from 'react'
+import { useState, useEffect} from 'react'
 import { Data } from '../interfaces/data'
 import Button from '@mui/material/Button';
 import baseUrl from '../components/baseUrl';

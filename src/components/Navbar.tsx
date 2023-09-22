@@ -13,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { ChangeEvent, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import { LocalMode } from './LocalStorage';
@@ -21,9 +21,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { incProfileBadge, searchResult } from '../store/Slice';
 import LiveTvOutlinedIcon from '@mui/icons-material/LiveTvOutlined';
-import axios from 'axios';
-import { options } from '../option';
-
 
 
 
