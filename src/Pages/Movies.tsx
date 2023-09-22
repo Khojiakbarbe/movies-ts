@@ -131,7 +131,7 @@ const Movies: React.FC = (): ReactJSXElement => {
                                         <p><GradeOutlinedIcon className='text-yellow-400' />: {movie.vote_average}</p>
                                         <p><FavoriteOutlinedIcon className='text-red-600' />: {movie.vote_count}</p>
                                         <div className='text-center pt-5'>
-                                            <Button onClick={() => navigate('/details', { state: { id: 1, type: 'movie', movie: movie } })} variant="outlined" color='error'>MORE</Button>
+                                            <Button onClick={() => navigate('/details', { state: { id: movie.id, type: 'movie' } })} variant="outlined" color='error'>MORE</Button>
                                         </div>
                                     </div>
                                 </div>
