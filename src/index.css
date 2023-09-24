@@ -101,3 +101,53 @@
   object-fit: cover;
 }
 
+
+/* /////// DASHBOARD */
+
+:root {
+  --translateWay: 50px;
+  --animationDr:5s;
+}
+
+.animationTextDiv h1:nth-child(1){
+  animation-duration:var(--animationDr) ;
+  animation-timing-function: linear;
+  animation-name: animateionText1;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  
+}
+@keyframes animateionText1{
+  0%{
+    transform: translateX(0);
+  }
+  50%{
+    transform: translateX(var(--translateWay));
+  }
+  100%{
+    transform: translateX(0px);
+  }
+}
+.animationTextDiv h1:nth-child(2){
+  animation-duration:var(--animationDr) ;
+  margin-top: 20px;
+  animation-timing-function: linear;
+  animation-name: animateionText2;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse; 
+  transform: rotateY(-30px);
+
+}
+@keyframes animateionText2{
+  0%{
+    transform: translateX(var(--translateWay));
+  }
+  50%{
+    transform: translateX(0);
+  }
+  100%{
+    transform: translateX(var(--translateWay));
+  }
+}

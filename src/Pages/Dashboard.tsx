@@ -1,6 +1,6 @@
 import { Button } from '@mui/material'
 import axios from 'axios'
-import { useEffect,  useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../components/Footer'
 import PrimarySearchAppBar from "../components/Navbar"
@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
         })()
     })
 
-  
+
 
 
 
@@ -35,18 +35,20 @@ const Dashboard: React.FC = () => {
         <>
 
             <PrimarySearchAppBar />
-            <div className='relative'>
-                <p className='dark:drop-shadow-[0_0_20px_yellow] text-3xl md:text-9xl dark:animate-bounce text-center text-yellow-400 font-serif'>MOVIE</p>
-                <p className='dark:drop-shadow-[0_0_20px_blue] text-3xl md:text-9xl text-center dark:animate-pulse text-blue-600 font-serif'>TIME</p>
+            <div className='relative animationTextDiv md:w-[40%] mx-auto au '>
+                <h1 className='dark:drop-shadow-[0_0_20px_yellow] text-3xl md:text-9xl  text-center md:text-start text-yellow-400 font-serif'>MOVIE</h1>
+                <h1 className='dark:drop-shadow-[0_0_20px_blue] text-3xl  md:text-9xl  text-center md:text-end  text-blue-600 font-serif'>TIME</h1>
             </div>
+
+
             <div className='flex items-center justify-around my-5 '>
                 <h2 className='md:text-4xl dark:text-white text-center'>MOVIES</h2>
-                <Button  sx={{ fontSize: { xs: '10px', md: '24px' } }} variant='outlined' color='error' onClick={() => navigate('/movies')}>
+                <Button sx={{ fontSize: { xs: '10px', md: '24px' } }} variant='outlined' color='error' onClick={() => navigate('/movies')}>
                     movies page
                 </Button>
             </div>
 
-            <Swipper movies={movies} page='movies'/>
+            <Swipper movies={movies} page='movies' />
 
             <div className='flex justify-around mt-10 mb-5'>
                 <h2 className='md:text-4xl dark:text-white text-center'>TV Series</h2>
@@ -54,7 +56,7 @@ const Dashboard: React.FC = () => {
                     tv page
                 </Button>
             </div>
-            <Swipper movies={tv} page='tv'/>
+            <Swipper movies={tv} page='tv' />
             <Footer />
 
         </>
