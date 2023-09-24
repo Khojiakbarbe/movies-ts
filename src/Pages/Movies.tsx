@@ -140,7 +140,7 @@ const Movies: React.FC = (): ReactJSXElement => {
                                 {
                                     checkFavorite(false, movie) ?
                                         <Tooltip title='Add to favorites' placement='bottom-start'>
-                                            <IconButton onClick={() => checkFavorite(true, movie)} className='inline dark:text-red-600 w-10'>
+                                            <IconButton onClick={() => checkFavorite(true, movie)} color='error' className='inline w-10'>
                                                 <FavoriteOutlinedIcon />
                                             </IconButton>
                                         </Tooltip>

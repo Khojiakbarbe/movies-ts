@@ -9,9 +9,11 @@ import { Button } from '@mui/material';
 import baseUrl from './baseUrl';
 import { options } from '../option';
 
+import AOS from 'aos'
 
 const Details: React.FC = () => {
 
+    AOS.init()
 
     const navigate = useNavigate();
 
@@ -55,7 +57,7 @@ const Details: React.FC = () => {
 
     window.scrollTo(0, 0)
 
-    
+
     return (
         <div className='py-5'>
             <PrimarySearchAppBar />
@@ -72,7 +74,7 @@ const Details: React.FC = () => {
             />
 
             <div className='grid md:grid-cols-[1fr_1fr] border-b-2 pb-2 gap-4 text-black dark:text-white my-4 font-serif text-xs md:text-2xl px-5 '>
-                <div>
+                <div data-aos="fade-up">
                     <span className='text-sm md:text-xl text-red-600 border px-2 border-dashed border-red-600 animate-pulse'>(perhaps: ) This content is 18+</span>
                     <img src={baseUrl(details.backdrop_path)} className='w-[60%] mx-auto h-auto z-[-1]' style={{ clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)' }} alt="" />
                     <div className='flex gap-3 border-t-2 my-4 pt-5'>
@@ -90,7 +92,7 @@ const Details: React.FC = () => {
 
                     <p>{details.tagline}</p>
                 </div>
-                <div >
+                <div data-aos="fade-down" >
                     <h2 className='border border-dotted bor p-2'>Status : {details.status}</h2>
                     <p>Title: <span className='text-sm md:text-2xl text-blue-600  font-mono '>{details.title}</span></p>
                     <p>Orginal lang: <span className="text-sm md:text-xl text-red-600 border px-2 border-dashed border-red-600">{details.original_language}</span></p>

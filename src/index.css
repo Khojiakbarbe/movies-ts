@@ -34,7 +34,6 @@
 
 .content-details {
   position: absolute;
-  /* text-align: center; */
   padding-left: 1em;
   padding-right: 1em;
   width: 100%;
@@ -67,40 +66,6 @@
 .textShadowText {
   text-shadow: 5px 5px 20px blue;
   font-weight: bold;
-}
-
-.testing {
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
-
-.content1 {
-  background: red;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
-
-.content2 {
-  background: blue;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
-
-.content3 {
-  background: yellow;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-}
-
-.content4 {
-  background: unset;
-  height: 100vh;
-  position: sticky;
-  top: 0;
 }
 
 .dashboardBigDivs {
