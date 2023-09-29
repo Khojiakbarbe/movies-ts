@@ -27,7 +27,7 @@ const Dashboard: React.FC = () => {
     })
 
 
-
+    
 
 
 
@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
         <>
 
             <PrimarySearchAppBar />
-            <div className='relative animationTextDiv md:w-[40%] mx-auto au '>
+            <div className='overflow-hidden relative animationTextDiv md:w-[40%] mx-auto au '>
                 <h1 className='dark:drop-shadow-[0_0_20px_yellow] text-3xl md:text-9xl  text-center md:text-start text-yellow-400 font-serif'>MOVIE</h1>
                 <h1 className='dark:drop-shadow-[0_0_20px_blue] text-3xl  md:text-9xl  text-center md:text-end  text-blue-600 font-serif'>TIME</h1>
             </div>

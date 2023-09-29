@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { options } from '../option'
-import { useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import { Data } from '../interfaces/data'
 import Button from '@mui/material/Button';
 import baseUrl from '../components/baseUrl';
@@ -85,14 +85,6 @@ const Movies: React.FC = (): ReactJSXElement => {
         }
     }
 
-    // window.addEventListener('scroll', ()=>{  
-    //     console.log((document.documentElement.scrollTop / document.documentElement.clientHeight) * 100);
-    // })
-
-
-
-
-
 
 
     function Change(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
@@ -101,6 +93,19 @@ const Movies: React.FC = (): ReactJSXElement => {
         setList(e.currentTarget.value)
     }
 
+    interface list {
+        value: string, text: string
+    }
+
+    const lists: list[] = [
+        { value: '', text: 'All' },
+        { value: 'now_playing', text: 'Now Playing' },
+        { value: 'popular', text: 'Popular' },
+        { value: 'top_rated', text: 'Top Rated' },
+        { value: 'upcoming', text: 'Up Coming' },
+    ];
+
+    const [selectedList, setSelectedList] = useState<string>('')
 
 
     return (
@@ -109,11 +114,14 @@ const Movies: React.FC = (): ReactJSXElement => {
             <div className='container mx-auto my-11'>
                 <h1 className='text-blue-400 font-serif dark:text-white  dark:drop-shadow-[0_0_20px_blue] text-center md:text-6xl'>MOVIE</h1>
                 <div className='flex items-center justify-center gap-5'>
-                    <Button className='cursor-pointer' variant='outlined' value='' onClick={(e) => Change(e)}>All</Button>
-                    <Button className='cursor-pointer' value='now_playing' onClick={(e) => Change(e)}>Now Playing</Button>
-                    <Button className='cursor-pointer' value='popular' onClick={(e) => Change(e)}>Popular</Button>
-                    <Button className='cursor-pointer' value='top_rated' onClick={(e) => Change(e)}>Top Rated</Button>
-                    <Button className='cursor-pointer' value='upcoming' onClick={(e) => Change(e)}>Up Coming</Button>
+                    {
+                        lists.map(p => {
+                            return <Button className={`cursor-pointer  ${p.value == selectedList && 'bg-[red_!important] text-[white_!important]'}`} variant='outlined' value={p.value} onClick={(e) => {
+                                Change(e)
+                                setSelectedList(p.value)
+                            }}>{p.text}</Button>
+                        })
+                    }
                 </div>
                 {loading && <Skeletons />}
                 <div className='p-10 grid grid-cols-2 md:grid-cols-4  gap-5'>
@@ -135,7 +143,7 @@ const Movies: React.FC = (): ReactJSXElement => {
                                         </div>
                                     </div>
                                 </div>
-                                <p>{movie.title.slice(0, 12)}</p>
+                                <p>{movie.title.slice(0, 22)}</p>
 
                                 {
                                     checkFavorite(false, movie) ?

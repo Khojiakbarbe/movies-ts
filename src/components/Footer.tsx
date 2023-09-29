@@ -33,7 +33,8 @@ export default function Footer() {
       variant="solid"
       color={color}
       invertedColors
-      sx={{marginTop:10,
+      sx={{
+        marginTop: 10,
         ...(color !== 'neutral' && {
           bgcolor: `${color}.800`,
         }),
@@ -42,7 +43,7 @@ export default function Footer() {
         borderRadius: { xs: 0, sm: 'sm' },
       }}
     >
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      <Box sx={{ display: 'flex', alignItems: 'center',  gap: 2 }}>
         <IconButton
           variant="soft"
           size="sm"
@@ -60,7 +61,7 @@ export default function Footer() {
         >
           <ColorLensRoundedIcon fontSize="small" />
         </IconButton>
-        <Divider orientation="vertical" />
+        <Divider orientation="vertical" sx={{fontSize:{xs:'15px'}}} />
         <a href="https://telegram.me/xojiakbarbek">
           <IconButton variant="plain">
             <TelegramIcon />
@@ -93,8 +94,8 @@ export default function Footer() {
           }
           sx={{ ml: 'auto', display: { xs: 'none', md: 'flex' } }}
         />
+        <Divider sx={{ my: 2 }} />
       </Box>
-      <Divider sx={{ my: 2 }} />
       <Box
         sx={{
           display: 'flex',
