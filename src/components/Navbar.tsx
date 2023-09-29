@@ -141,7 +141,7 @@ export default function PrimarySearchAppBar() {
                     Favorites
                 </Badge>
             </MenuItem>
-            <MenuItem onClick={() => navigate('/dashboard')} >
+            <MenuItem onClick={() => navigate('/')} >
                 Dashboard
             </MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
