@@ -113,10 +113,10 @@ const Movies: React.FC = (): ReactJSXElement => {
             <PrimarySearchAppBar />
             <div className='container mx-auto my-11'>
                 <h1 className='text-blue-400 font-serif dark:text-white  dark:drop-shadow-[0_0_20px_blue] text-center md:text-6xl'>MOVIE</h1>
-                <div className='flex items-center justify-center gap-5'>
+                <div className='grid grid-cols-3 md:flex items-center justify-center md:gap-5'>
                     {
                         lists.map(p => {
-                            return <Button className={`cursor-pointer  ${p.value == selectedList && 'bg-[red_!important] text-[white_!important]'}`} variant='outlined' value={p.value} onClick={(e) => {
+                            return <Button className={`cursor-pointer  ${p.value == selectedList && 'bg-[red_!important] text-[white_!important]'}`} variant='outlined' sx={{fontSize:{xs:5,sm:15}}} value={p.value} onClick={(e) => {
                                 Change(e)
                                 setSelectedList(p.value)
                             }}>{p.text}</Button>

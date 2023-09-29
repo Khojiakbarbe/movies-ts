@@ -20,6 +20,8 @@ import Footer from '../components/Footer';
 
 const TV: React.FC = (): ReactJSXElement => {
 
+    document.documentElement.scrollTo(0, 0);
+
     const navigate = useNavigate();
 
     const pathPage = useAppSelector(state => state.movies.page)
@@ -30,7 +32,6 @@ const TV: React.FC = (): ReactJSXElement => {
     const [page, setPage] = useState<number>(pathPage)
     const [loading, setLoading] = useState<boolean>(false)
 
-    document.documentElement.scrollTo(0, 0);
 
 
 
@@ -44,7 +45,6 @@ const TV: React.FC = (): ReactJSXElement => {
         setLoading(true)
         const res = await axios.get(`https://api.themoviedb.org/3/discover/tv?include_adult=false&include_null_first_air_dates=false&language=en-US&page=${page}&sort_by=popularity.desc`, options)
         const data = await res.data.results;
-        console.log(data);
 
         setMovies(data)
         setPageCount(Math.ceil(res.data.total_pages / 100))
@@ -52,9 +52,7 @@ const TV: React.FC = (): ReactJSXElement => {
     }
 
 
-    function changePage(e: React.ChangeEvent<unknown>, value: number): void {
-        console.log(e);
-        
+    function changePage(_: React.ChangeEvent<unknown>, value: number): void {
         setPage(value)
         dispatch(changePathPage(value))
     }

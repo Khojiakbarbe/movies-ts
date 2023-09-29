@@ -61,7 +61,7 @@ export default function Footer() {
         >
           <ColorLensRoundedIcon fontSize="small" />
         </IconButton>
-        <Divider orientation="vertical" sx={{fontSize:{xs:'15px'}}} />
+        <Divider orientation="vertical" sx={{fontSize:{xs:2}}} />
         <a href="https://telegram.me/xojiakbarbek">
           <IconButton variant="plain">
             <TelegramIcon />
